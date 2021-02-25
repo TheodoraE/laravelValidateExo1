@@ -14,7 +14,8 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        $books = Book::all();
+        return view('welcome', compact('books'));
     }
 
     /**
@@ -24,7 +25,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.create');
     }
 
     /**
@@ -35,7 +36,19 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation = $request->validate([
+            "name" => 'required|max:30',
+            "text" => 'required|max:300',
+            "score" => 'integer|min:1|max:5'
+        ]);
+
+        $newEntry = new Book;
+        $newEntry->name = $request->name;
+        $newEntry->text = $request->text;
+        $newEntry->score = $request->score;
+
+        $newEntry->save();
+        return redirect()->back();
     }
 
     /**
@@ -44,9 +57,10 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function show(Book $book)
+    public function show($id)
     {
-        //
+        $show = Book::find($id);
+        return view('pages.show', compact('show'));
     }
 
     /**
@@ -55,9 +69,10 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function edit(Book $book)
+    public function edit($id)
     {
-        //
+        $edit = Book::find($id);
+        return view('pages.edit', compact('edit'));
     }
 
     /**
@@ -67,9 +82,21 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(Request $request, $id)
     {
-        //
+        $validation = $request->validate([
+            "name" => 'required|min:1|max:30',
+            "text" => 'required|min:1|max:300',
+            "score" => 'integer|min:1|max:5'
+        ]);
+
+        $update = Book::find($id);
+        $update->name = $request->name;
+        $update->text = $request->text;
+        $update->score = $request->score;
+
+        $update->save();
+        return redirect('/');
     }
 
     /**
@@ -78,8 +105,10 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Book $book)
+    public function destroy($id)
     {
-        //
+        $destroy = Book::find($id);
+        $destroy->delete();
+        return redirect('/');
     }
 }

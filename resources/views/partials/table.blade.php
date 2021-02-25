@@ -1,20 +1,29 @@
 <div class="container mt-5">
+    <div class="mb-5">
+        <h1>The authors</h1>
+    </div>
     <table class="table">
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Name</th>
+            {{-- <th scope="col">Text</th>
+            <th scope="col">Score</th> --}}
+            <th scope="col"> </th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
+            @foreach ($books as $book)
+                <tr>
+                    <th scope="row">{{$book->id}}</th>
+                    <td>{{$book->name}}</td>
+                    {{-- <td>{{$book->text}}</td>
+                    <td>{{$book->score}}</td> --}}
+                    <td>
+                        <a href="/show-book/{{$book->id}}" class="btn btn-primary">SHOW</a>
+                    </td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 </div>

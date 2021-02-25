@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +28,11 @@ use Illuminate\Support\Facades\Route;
 // Affichez le total des notes de tous les auteurs en haut de l'écran
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [BookController::class, 'index']);
+Route::get('/create', [BookController::class, 'create']);
+Route::get('/show-book/{id}', [BookController::class, 'show']);
+Route::get('/edit-book/{id}', [BookController::class, 'edit']);
+
+Route::post('/store-book', [BookController::class, 'store']);
+Route::post('/update-book/{id}', [BookController::class, 'update']);
+Route::post('/destroy-book/{id}', [BookController::class, 'destroy']);
